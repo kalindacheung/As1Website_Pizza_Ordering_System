@@ -1,0 +1,119 @@
+<script>
+    let totalPrice = 0; // Initialize total price
+    const orderItems = {}; // Object to track ordered pizzas by pizza ID
+
+// ----------------------- Add  Pizza ------------------------//
+    function addPizza() {
+      const pizzaSelect = document.getElementById('pizzaSelect');
+      const selectedPizza = pizzaSelect.options[pizzaSelect.selectedIndex];// dropdown menu poistion e.g. pizzaSelect.options[1] 
+      const pizzaId = selectedPizza.value;//item._id database pizza ID
+      const pizzaName = selectedPizza.text;// pizza name
+      const pizzaPrice = parseFloat(selectedPizza.dataset.price); // Parse price as a float 接受第一個小數點
+      const pizzaQuantity = parseInt(document.getElementById('pizzaQuantity').value); // Get quantity as a number
+
+      // Check if the pizza is already in the order
+      if (orderItems[pizzaId]) {
+        // Update the quantity and price of the existing pizza in the order
+        const currentQuantity = orderItems[pizzaId].quantity;
+        const newQuantity = currentQuantity + pizzaQuantity;
+
+        // Update the total price of this pizza
+        const previousPizzaTotal = pizzaPrice * currentQuantity;
+        const newPizzaTotal = pizzaPrice * newQuantity;
+
+        // Update total order price
+        totalPrice = totalPrice - previousPizzaTotal + newPizzaTotal;
+        document.getElementById('totalPrice').innerText = totalPrice.toFixed(2); // Update total price display
+
+        // Update the order item's quantity and total price in the DOM
+        const orderItem = document.querySelector(`#orderItem-${pizzaId}`);
+        orderItem.querySelector('.pizza-quantity').innerText = `Quantity: ${newQuantity}`;
+        orderItem.querySelector('.pizza-total').innerText = `$${newPizzaTotal.toFixed(2)}`;
+
+        // Update the stored quantity
+        orderItems[pizzaId].quantity = newQuantity;
+
+        // Update the hidden input for quantity
+        const quantityInput = orderItem.querySelector(`input[name="items[${pizzaId}][quantity]"]`);
+        quantityInput.value = newQuantity; // Update hidden input
+
+      } else {
+        // If the pizza is not already in the order, add it as a new item
+        const pizzaTotal = pizzaPrice * pizzaQuantity;
+
+        // Update total order price
+        totalPrice += pizzaTotal;
+        document.getElementById('totalPrice').innerText = totalPrice.toFixed(2); // Update total price display
+
+
+        // Shopping cart items
+        const orderList = document.getElementById('orderList');
+        const orderItem = document.createElement('div');
+        orderItem.id = `orderItem-${pizzaId}`;
+        orderItem.innerHTML = `
+          <input type="hidden" name="items[${pizzaId}][selected]" value="true">
+          <input type="hidden" name="items[${pizzaId}][quantity]" value="${pizzaQuantity}">
+          ${pizzaName} - <span class="pizza-quantity">Quantity: ${pizzaQuantity}</span> 
+          (<span class="pizza-total">$${pizzaTotal.toFixed(2)}</span>)
+          <button type="button" onclick="removePizza('${pizzaId}', ${pizzaTotal})">-</button>
+        `;
+        orderList.appendChild(orderItem);
+
+        // Add this pizza to the orderItems object
+        orderItems[pizzaId] = { quantity: pizzaQuantity, price: pizzaPrice };
+      }
+    }
+
+// ----------------------- Remove Pizza ------------------------//
+    function removePizza(pizzaId, pizzaTotal) {
+      // Get the current quantity and price of the pizza
+      const pizzaQuantity = orderItems[pizzaId].quantity;
+      const pizzaPrice = orderItems[pizzaId].price;
+
+      // Calculate the price to subtract from total (price * quantity)
+      const priceToSubtract = pizzaPrice * pizzaQuantity;
+
+      // Update total price
+      totalPrice -= priceToSubtract;
+      document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+
+      // Remove the pizza item from the order list
+      const orderItem = document.getElementById(`orderItem-${pizzaId}`);
+      orderItem.remove();
+
+      // Remove the pizza from the orderItems object
+      delete orderItems[pizzaId];
+    }
+
+
+// ----------------------- Credit Card Field (add and none) ------------------------//
+    function toggleCreditCardFields() {
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      const creditCardDetails = document.getElementById('creditCardDetails');
+
+      // Credit card input fields
+      const cardNumber = document.getElementById('cardNumber');
+      const cardHolderName = document.getElementById('cardHolderName');
+      const expiryDate = document.getElementById('expiryDate');
+      const cvv = document.getElementById('cvv');
+
+      if (paymentMethod === 'credit') {
+        creditCardDetails.style.display = 'block';
+
+        // Set the 'required' attribute for credit card fields
+        cardNumber.setAttribute('required', 'true');
+        cardHolderName.setAttribute('required', 'true');
+        expiryDate.setAttribute('required', 'true');
+        cvv.setAttribute('required', 'true');
+      } else {
+        creditCardDetails.style.display = 'none';
+
+        // Remove the 'required' attribute if payment is not credit
+        cardNumber.removeAttribute('required');
+        cardHolderName.removeAttribute('required');
+        expiryDate.removeAttribute('required');
+        cvv.removeAttribute('required');
+      }
+    }
+
+  </script>

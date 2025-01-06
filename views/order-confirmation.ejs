@@ -1,0 +1,64 @@
+<%- include("./partials/header.ejs") %>
+  <!-- Menu Section -->
+  <div class="top-banner"><img src="images/pizza.png"></div>
+  <div class="checkoutTitle">
+    <h1>Order Confirmation</h1>
+  </div>
+  <!-- Order Confirmation Section -->
+  <div class="Order-Container">
+
+    <p class="orderID">Order #<%= order._id %>
+
+        <h1>Thank you for your order!</h1>
+        <h2>
+          <%= order.customerName %>
+        </h2>
+        <p>Your order details are as follows:</p>
+        <table class="order-table">
+          <tr>
+            <th>Items Ordered</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        
+          <% order.items.forEach(item=> { %>
+            <tr>
+            <td>
+              <%= item.name %>
+            </td>
+            <td>$<%= item.price %>
+            </td>
+            <td>
+              <%= item.quantity %>
+            </td>
+          </tr>
+            <% }) %>
+       
+        </table>
+        <p class="order-total">Total Price: $<%= order.totalPrice %>
+        </p>
+
+        <p>Delivery Address: <%= order.customerAddress %>
+        </p>
+        <p>Phone Number: <%= order.customerPhoneNumber %>
+        </p>
+        <p>Payment Method: <%= order.paymentMethod %>
+        </p>
+        <p>status: <%= order.status %>
+        </p>
+        <p>OrderDate: <%= order.orderDate %>
+        </p>
+
+    </p>
+    <p>We will notify you once your order is on its way or you can track your order by using order ID <span><%= order._id %></span> !</p>
+
+
+    <div class="box-2">
+      <a href="/order-status"><div class="btn2 btn-two">
+        <span>Track your Order</span>
+      </div></a>
+    </div>
+  </div>
+
+
+  <%- include("./partials/footer.ejs") %>

@@ -1,0 +1,55 @@
+<%- include("./partials/header.ejs") %>
+  <!-- Menu Section -->
+  <div class="top-banner"><img src="images/pizza.png"></div>
+  <div class="checkoutTitle">
+    <h1>Check Order Status</h1>
+  </div>
+  <!-- Order Confirmation Section -->
+  <div class="Order-Container">
+    <h2 style="padding-top: 20px;">Check Order Status</h2>
+
+    <form action="/order-status" method="POST">
+        <label for="orderId">Enter Order ID:</label><br/>
+        <input type="text" id="orderId" name="orderId" required><br/>
+        <button type="submit" class="order-check-bn">Check Status</button>
+    </form>
+    
+    <!-- Display error message if any -->
+    <% if (error) { %>
+        <p style="color: red; font-weight: 500;"><%= error %></p>
+    <% } else if (order) { %>
+        <p>Order ID: <%= order._id %></p>
+        <p>Customer Name: <%= order.customerName %></p>
+        <h3> Status: <%= order.status %></h3>
+
+        <p>Your order details are as follows:</p>
+        <table class="order-table">
+          <tr>
+            <th>Items Ordered</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+          <% order.items.forEach(item=> { %>
+            <tr>
+            <td>
+              <%= item.name %>
+            </td>
+            <td>$<%= item.price %>
+            </td>
+            <td>
+              <%= item.quantity %>
+            </td>
+          </tr>
+            <% }) %>
+        </table>
+        <p class="order-total" style="margin-bottom: 30px;">Total Price: $<%= order.totalPrice %></p>
+        <div class="box-2">
+            <a href="/menu"><div class="btn2 btn-two">
+              <span>Back to Menu</span>
+            </div></a>
+          </div>
+        </div>
+    <% } %>
+
+  </div>
+    <%- include("./partials/footer.ejs") %>

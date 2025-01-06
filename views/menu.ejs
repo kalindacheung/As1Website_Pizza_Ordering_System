@@ -1,0 +1,31 @@
+<%- include("./partials/header.ejs") %>
+	<!-- Menu Section -->
+	<div class="top-banner"><img src="images/pizza.png"></div>
+	<div class="menu">
+		<h1>Our Menu</h1>
+		<div class="menuContainer">
+			<% menuItems.forEach(item=> { %>
+				<div class="menuItem">
+					<img src="<%= item.imgURL %>">
+					<h2 class="menuItemTitle">
+						<%= item.name %>
+					</h2>
+					<p class="menuItemCals">
+						<%= item.cals %>
+					</p>
+					<p class="menuItemDetails">
+						<%= item.detail %>
+					</p>
+					<p class="menuItemPrice">
+						$<%= item.price %>
+					</p>
+					<div class="box-1">
+						<a href="/order"><div class="btn btn-one">
+							<span>Order Now</span>
+						</div></a>
+					</div>
+				</div>
+				<% }); %>
+		</div>
+	</div>
+	<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,82 @@
+<%- include("./partials/header.ejs") %>
+    <!-- Menu Section -->
+    <div class="top-banner"><img src="images/pizza.png"></div>
+    <div class="checkoutTitle">
+      <h1>Order</h1>
+    </div>
+
+    <!-- Order Form Section -->
+    <div class="container">
+      <div class="form">
+        <form action="/order" method="POST">
+
+          <div class="testForm">
+            <div class="kalinda1">
+              <!-- Customer Information -->
+              <h2 class="order-header"><span class="material-symbols-outlined">contacts</span> Customer Information</h2>
+              <label for="customerName" class="formLabel">Customer Name:</label><br>
+              <input type="text" id="customerName" name="customerName" required><br>
+              <label for="customerAddress" class="formLabel">Customer Address:</label><br>
+              <input type="text" id="customerAddress" name="customerAddress" required><br>
+              <label for="customerPhoneNumber" class="formLabel">Customer Phone Number:</label><br>
+              <input type="tel" id="customerPhoneNumber" name="customerPhoneNumber" required><br>
+              <label for="customerEmail" class="formLabel">Customer Email:</label><br>
+              <input type="email" id="customerEmail" name="customerEmail" required><br>
+
+              <!-- Payment Method -->
+              <label for="paymentMethod" class="formLabel">Payment Method:</label><br>
+              <select class="form-select" id="paymentMethod" name="paymentMethod" required
+                onchange="toggleCreditCardFields()">
+                <option value="cash">Cash</option>
+                <option value="credit">Credit Card</option>
+              </select><br>
+
+              <div id="creditCardDetails" style="display:none;">
+                <label for="cardNumber" class="formLabel">Card Number:</label>
+                <input class="form-select" type="text" id="cardNumber" name="creditCardDetails[cardNumber]"><br>
+
+                <label for="cardHolderName" class="formLabel">Card Holder Name:</label>
+                <input class="form-select" type="text" id="cardHolderName" name="creditCardDetails[cardHolderName]"><br>
+
+                <label for="expiryDate" class="formLabel">Expiry Date:</label>
+                <input class="form-select" type="text" id="expiryDate" name="creditCardDetails[expiryDate]"><br>
+
+                <label for="cvv" class="formLabel">CVV:</label>
+                <input class="form-select" type="text" id="cvv" name="creditCardDetails[cvv]"><br>
+              </div>
+
+              <!-- Order Details -->
+              <h2 class="order-header"><span class="material-symbols-outlined">list_alt</span> Order Details</h2>
+              <select id="pizzaSelect">
+                <% menuItems.forEach(item=> { %>
+                  <option value="<%= item._id %>" data-price="<%= item.price %>">
+                    <%= item.name %> - $<%= item.price %>
+                  </option>
+                  <% }) %>
+              </select>
+              <label for="pizzaQuantity">Quantity:</label>
+              <select id="pizzaQuantity">
+                <% for (let i=1; i <=10; i++) { %>
+                  <option value="<%= i %>">
+                    <%= i %>
+                  </option>
+                  <% } %>
+              </select>
+              <button class="addPizzaButton" type="button" onclick="addPizza()">Add Pizza</button>
+            </div>
+            <!-- Shopping Cart -->
+            <div class="kalinda2">
+              <h2><span class="material-symbols-outlined">local_pizza</span> Your Order:</h2>
+              <div id="orderList"></div>
+              <h3>Total Price: $<span id="totalPrice">0.00</span></h3>
+            </div>
+          </div>
+
+          <button class="FormSubmit" type="submit">Place Order</button>
+        </form>
+      </div>
+    </div>
+
+    <%- include("./partials/function.ejs") %> 
+
+<%- include("./partials/footer.ejs") %>

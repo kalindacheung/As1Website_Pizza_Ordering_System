@@ -1,0 +1,41 @@
+<%- include("./partials/header.ejs") %>
+
+	<!-- Main Section -->
+	<div class="main-banner">
+		<img src="images/pizza.png">
+		<div class="main-banner-content">
+			<h1 class="mb-0"><span class="banner-title1">ARE YOU READY TO </span><br /><span
+					class="banner-title2">PIZZA?</span></h1>
+			<p>Arbys has a wide selection of gourmet meat, veggie, and vegan pizzas. All our pizzas areavailable
+				Gluten-free.</p>
+			<a href="/order" class="banner-button">ORDER NOW</a>
+		</div>
+	</div>
+	<!-- Section2 -->
+	<div class="section2">
+		<div class="container">
+			<div class="section2_content">
+				<img src="images/section1_icon1.png">
+				<h2><span class="material-symbols-outlined">local_pizza</span> BELIEVE IN ARBYS</h2>
+				<p>A Pizzaiolo insists on fresh dough, hand-stretches it, covers it with sauce that is made in-house,
+					tops it with delicious cheese and fresh ingredients. </p>
+			</div>
+			<div class="section2_content">
+				<img src="images/section1_icon2.png">
+				<h2><span class="material-symbols-outlined">local_dining</span> CATER YOUR EVENT</h2>
+				<p>ARBYS has everything to make your next event delicious. An amazing selection of authentic pizzas.
+				</p>
+			</div>
+			<div class="section2_content">
+				<img src="images/section1_icon3.png">
+				<h2><span class="material-symbols-outlined">food_bank </span> GO TO ARBYS</h2>
+				<p>Welcome to <%= restaurant.name %>
+				</p>
+				<p>Location: <%= restaurant.location %>
+				</p>
+				<p>Hours: <%= restaurant.hours %>
+				</p>
+			</div>
+		</div>
+	</div>
+	<%- include("./partials/footer.ejs") %>
